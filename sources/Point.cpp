@@ -42,6 +42,39 @@ namespace ariel {
     }
 
 /**
+ * @brief Set the x-coordinate of the point.
+ * @param newX The new value for the x-coordinate.
+ * @throw std::invalid_argument if newX is NaN (not a number).
+ * @throw std::out_of_range if newX is out of bounds.
+ */
+    void Point::setX(double newX) {
+        if (std::isnan(newX)) {
+            throw std::invalid_argument("Invalid coordinates: NaN values not allowed.");
+        }
+        if (std::abs(newX) > DBL_MAX) {
+            throw std::out_of_range("Invalid coordinates: Out of bounds.");
+        }
+        this->coordinate_x=newX;
+    }
+
+/**
+ * @brief Set the y-coordinate of the point.
+ * @param newY The new value for the y-coordinate.
+ * @throw std::invalid_argument if newY is NaN (not a number).
+ * @throw std::out_of_range if newY is out of bounds.
+ */
+    void Point::setY(double newY) {
+        if (std::isnan(newY)) {
+            throw std::invalid_argument("Invalid coordinates: NaN values not allowed.");
+        }
+        if (std::abs(newY) > DBL_MAX) {
+            throw std::out_of_range("Invalid coordinates: Out of bounds.");
+        }
+        this->coordinate_y=newY;
+    }
+
+
+/**
 * @brief Calculates the Euclidean distance between this point and another point.
 * @param other The other position.
 * @return The distance between this position and the other position.
@@ -90,7 +123,7 @@ namespace ariel {
         double newX = source.coordinate_x + distance * dx/dist;
         double newY = source.coordinate_y + distance * dy/dist;
 
-        return Position(newX, newY);
+        return Position(newX,newY);
     }
 
 }

@@ -24,6 +24,14 @@ namespace ariel {
 
         Point(double coordinate_x, double coordinate_y);
 
+        Point getX() const;
+
+        Point getY() const;
+
+        void setX(double newX);
+
+        void setY(double newY);
+
         double distance(Point &other);
 
         void print();
