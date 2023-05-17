@@ -23,6 +23,8 @@ namespace ariel {
     public:
         Character(const std::string &name, const Point &location , const int &hitPoints );
 
+        virtual ~Character() = default;
+
         void setHitPoints(int NewHitPoints);
 
         bool isAlive() const;
@@ -73,21 +75,33 @@ namespace ariel {
         void move(Character *enemy);
 
         void slash(Character *enemy);
+
+        virtual string getNinjaType() const = 0;
+
     };
 
     class YoungNinja : public Ninja {
     public:
         YoungNinja(const std::string &name, const Point &location);
-    };
+
+        string getNinjaType() const;
+
+        };
 
     class TrainedNinja : public Ninja {
     public:
         TrainedNinja(const std::string &name, const Point &location);
+
+        string getNinjaType() const;
+
     };
 
     class OldNinja : public Ninja {
     public:
         OldNinja(const std::string &name, const Point &location);
+
+        string getNinjaType() const;
+
     };
 
 }

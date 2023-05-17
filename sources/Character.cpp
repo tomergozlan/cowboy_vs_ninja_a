@@ -1,6 +1,9 @@
-//
-// Created by Tomer Gozlan on 15/05/2023.
-//
+/**
+ * @file character.cpp
+ * @brief Implements the Character class and its derived classes.
+ * @author Tomer Gozlan
+ * @date 15/05/2023
+ */
 
 #include "Character.hpp"
 
@@ -257,6 +260,10 @@ namespace ariel {
 
     YoungNinja::YoungNinja(const std::string& name, const ariel::Point& location) : Ninja(name, location, 14, 100) {}
 
+    string YoungNinja::getNinjaType() const {
+        return "YoungNinja";
+    }
+
 /// TrainedNinja class - defines the TrainedNinja class, derived from the Character and Ninja class.
 
 /**
@@ -266,6 +273,10 @@ namespace ariel {
 */
     TrainedNinja::TrainedNinja(const std::string& name, const ariel::Point& location) : Ninja(name, location, 12, 120) {}
 
+    string TrainedNinja::getNinjaType() const {
+        return "TrainedNinja";
+    }
+
 /// OldNinja class - defines the OldNinja class, derived from the Character and Ninja class.
 
 /**
@@ -274,5 +285,9 @@ namespace ariel {
 * @param location The initial location of the old ninja character.
 */
     OldNinja::OldNinja(const std::string& name, const ariel::Point& location) : Ninja(name, location, 8, 150) {}
+
+    string OldNinja::getNinjaType() const {
+        return "OldNinja";
+    }
 
 }
