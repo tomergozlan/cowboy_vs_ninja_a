@@ -3,10 +3,7 @@
 //
 #include "doctest.h"
 #include "sources/Character.hpp"
-#include "sources/Cowboy.hpp"
-#include "sources/Ninja.hpp"
-#include "sources/Point.hpp"
-#include "sources/Team.hpp"
+#include "Team.hpp"
 #include <bits/stdc++.h>
 
 using namespace std;
@@ -37,7 +34,7 @@ TEST_CASE("Test Case 4: Moving towards a destination point") {
     Point source(2.0, 3.0);
     Point dest(5.0, 7.0);
     double distance = 2.0;
-    Point newPoint = source.moveTowards(dest, distance);
+    Point newPoint = source.moveTowards(source,dest, distance);
     CHECK(newPoint.getX() == doctest::Approx(2.8));
     CHECK(newPoint.getY() == doctest::Approx(4.6));
 }
@@ -62,7 +59,7 @@ TEST_CASE("Test Case 7: Adding a fighter to the team") {
     // Create a team with a leader
     Point leaderLocation(1.0, 2.0);
     Character *leader = new Cowboy("John", leaderLocation);
-    Team team(leader);
+    Team team (leader);
 
     // Add a fighter to the team
     Point fighterLocation(3.0, 4.0);
@@ -153,12 +150,12 @@ TEST_CASE("Test Case 8: Attacking an enemy team") {
 
 // Iterate over the fighters in the enemy team and check their health after the attack
     for (Character* enemyFighter : enemyTeam.getFighters()) {
-        CHECK(enemyFighter->getHealth() < 100);  // Check if the enemy fighter's health decreased after the attack
+        CHECK(enemyFighter->getHitPoints() < 100);  // Check if the enemy fighter's health decreased after the attack
     }
 
 // Iterate over the fighters in the team and check their health after the attack
     for (Character* teamFighter : team.getFighters()) {
-        CHECK(teamFighter->getHealth() == 100);  // Check if the team fighter's health remains the same after the attack
+        CHECK(teamFighter->getHitPoints() == 100);  // Check if the team fighter's health remains the same after the attack
     }
 
     // Clean up

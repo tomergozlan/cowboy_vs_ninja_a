@@ -5,6 +5,7 @@
 #ifndef COWBOY_VS_NINJA_A_TEAM_HPP
 #define COWBOY_VS_NINJA_A_TEAM_HPP
 
+#include "Point.hpp"
 #include "Character.hpp"
 #include <vector>
 #include <algorithm>
@@ -16,14 +17,15 @@ namespace ariel {
     private:
         Character *leader;
         std::vector<Character *> fighters;
+
     public:
         Team(Character *leader);
 
         Character* getLeader() const;
 
-        void setLeader(Character *newLeader);
+        void setLeader();
 
-        const vector<Character*>& getFighters() const;
+        const std::vector<Character*>& getFighters() const;
 
         ~Team();
 

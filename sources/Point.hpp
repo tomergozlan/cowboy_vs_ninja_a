@@ -24,19 +24,20 @@ namespace ariel {
 
         Point(double coordinate_x, double coordinate_y);
 
-        Point getX() const;
+        double getX() const;
 
-        Point getY() const;
+        double getY() const;
 
         void setX(double newX);
 
         void setY(double newY);
 
-        double distance(Point &other);
+        double distance(const Point &other) const;
 
-        void print();
+        std::string print() const;
 
-        Point moveTowards(Point& source, Point& dest, double distance);
+        static Point moveTowards(const Point& source,const Point& dest, double distance);
+
     };
 }
 

@@ -15,13 +15,14 @@
 namespace ariel {
 
     class Character {
-
     private:
         Point location;
         int hitPoints;
-        string name;
+        std::string name;
+        bool teamMember;
+
     public:
-        Character(const std::string &name, const Point &location , const int &hitPoints );
+        Character(const std::string& name, const Point& location, const int& hitPoints);
 
         virtual ~Character() = default;
 
@@ -29,7 +30,7 @@ namespace ariel {
 
         bool isAlive() const;
 
-        double distance(const Character *other) const;
+        double distance(const Character* other) const;
 
         void hit(int amount);
 
@@ -39,71 +40,61 @@ namespace ariel {
 
         int getHitPoints() const;
 
+        bool isTeamMember() const;
+
+        void setTeamMember(bool newTeamMember);
+
         void setLocation(Point newLocation);
 
-        virtual void print() const = 0;
+        virtual std::string print() const = 0;
     };
 
     class Cowboy : public Character {
     private:
         int bullets;
-    public:
-        Cowboy(const std::string &name, const Point &location);
 
-        void shoot(Character *enemy);
+    public:
+        Cowboy(const std::string& name, const Point& location);
+
+        void shoot(Character* enemy);
 
         bool hasBullets() const;
 
         void reload();
 
-        void print() const override;
+        std::string print() const override;
     };
 
-/**
-* @file Ninja.hpp
-* @brief Defines the Ninja class, derived from the Character class.
-* The Ninja class represents a specific type of character - a ninja.
-* @author Tomer Gozlan
-* @date 15/05/2023
-*/
     class Ninja : public Character {
     protected:
         int speed;
+
     public:
-        Ninja(const std::string &name, const Point &location, int speed, int hitPoints);
+        Ninja(const std::string& name, const Point& location, int speed, int hitPoints);
 
-        void move(Character *enemy);
+        void move(Character* enemy);
 
-        void slash(Character *enemy);
+        void slash(Character* enemy);
 
-        virtual string getNinjaType() const = 0;
+        std::string print() const override;
 
     };
 
     class YoungNinja : public Ninja {
     public:
-        YoungNinja(const std::string &name, const Point &location);
-
-        string getNinjaType() const;
-
-        };
+        YoungNinja(const std::string& name, const Point& location) : Ninja(std::move(name) , location , 14 ,100){}
+    };
 
     class TrainedNinja : public Ninja {
     public:
-        TrainedNinja(const std::string &name, const Point &location);
-
-        string getNinjaType() const;
-
+        TrainedNinja(const std::string& name, const Point& location): Ninja(std::move(name),location,12,120){}
     };
 
     class OldNinja : public Ninja {
     public:
-        OldNinja(const std::string &name, const Point &location);
-
-        string getNinjaType() const;
-
+        OldNinja(const std::string& name, const Point& location): Ninja(std::move(name),location,8,150){}
     };
 
 }
 
-#endif //COWBOY_VS_NINJA_A_CHARACTER_HPP
+#endif // COWBOY_VS_NINJA_A_CHARACTER_HPP

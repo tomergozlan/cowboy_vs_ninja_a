@@ -15,19 +15,21 @@ namespace ariel {
  * @param location The location of the character.
  * @throw std::invalid_argument if the name is empty or if the location coordinates are negative.
  */
-    Character::Character(const std::string& name, const ariel::Point& location, const int &hitPoints) {
+    Character::Character(const std::string& name, const ariel::Point& location, const int &hitPoints):
+            location(location) ,hitPoints(hitPoints) , name(name), teamMember(false){
         if (name.empty()) {
             throw std::invalid_argument("Error: Name cannot be empty.");
         }
-        if (location.getX() < 0 || location.getY() < 0) {
+        if (this->location.getX() < 0.0 || this->location.getY() < 0.0) {
             throw std::invalid_argument("Error: Location coordinates cannot be negative.");
         }
-        if (hitPoints < 0 || hitPoints > 150) {
+        if (hitPoints < 0.0 || hitPoints > 150.0) {
             throw std::out_of_range("Error: hitPoints out of bounds.");
         }
         this->location = location;
         this->hitPoints = hitPoints;
         this->name = name;
+        this->teamMember= false;
     }
 
 /**
@@ -98,20 +100,28 @@ namespace ariel {
         return this->location;
     }
 
-    Point Character::getHitPoints() const {
+    int Character::getHitPoints() const {
         return this->hitPoints;
     }
 
+    bool Character::isTeamMember() const {
+        return this->teamMember;
+    }
+
+    void Character::setTeamMember(bool newTeamMember) {
+        this->teamMember = newTeamMember;
+    }
+    std::string Character::print() const {
+        std::string characterInfo = "name: "+name + ", health: "+ std::to_string(hitPoints)  + ", location: ";
+        characterInfo += location.print();
+        return characterInfo;
+    }
 /**
  * @brief Setter for the location of the character.
  * @param newLocation The new location to set
- * @throw std::invalid_argument if the new location contains NaN values.
  * @throw std::out_of_range if the new location is out of bounds
  */
     void Character::setLocation(Point newLocation) {
-        if (std::isnan(newLocation.getX()) || std::isnan(newLocation.getY())) {
-            throw std::invalid_argument("Error: Invalid coordinates. NaN values not allowed.");
-        }
         if (std::abs(newLocation.getX()) > DBL_MAX || std::abs(newLocation.getY()) > DBL_MAX) {
             throw std::out_of_range("Error: Invalid coordinates. Out of bounds.");
         }
@@ -131,7 +141,7 @@ namespace ariel {
         if (name.empty()) {
             throw std::invalid_argument("Error: Name cannot be empty.");
         }
-        if (hitPoints < 0 || hitPoints > 110) {
+        if (this->getHitPoints() < 0 || this->getHitPoints() > 110) {
             throw std::out_of_range("Error: hitPoints of Cowboy out of bounds.");
         }
         this->bullets = 6;
@@ -141,38 +151,40 @@ namespace ariel {
  * @brief Shoots the enemy character, causing damage and consuming a bullet.
  * @param enemy A pointer to the enemy character to shoot.
  * @throw std::invalid_argument If the enemy pointer is nullptr.
+ * @throw std::runtimer_error If cowboy try shoot himself.
  * @throw std::out_of_range If the cowboy is out of bullets.
  * @throw std::runtime_error If the enemy is already dead.
  */
-    void Cowboy::shoot(ariel::Character *enemy) {
-        if (!enemy) {
-            throw std::invalid_argument("Error: Invalid pointer to enemy character.");
+    void Cowboy:: shoot(Character *other){
+        if(other==nullptr)
+            throw std::invalid_argument ("error: enemey can't be null");
+        if(this == other)
+            throw std::runtime_error ("error: can't shoot myself");
+        if(!(this->isAlive()) || !(other->isAlive()))
+            throw std::runtime_error ("error: me or enemy - already dead");
+        if(this->hasBullets()){
+            this->bullets--;
+            other->hit(10);
         }
-        if (this->bullets <= 0) {
-            throw std::out_of_range("Error: Out of bullets,cannot shoot.")
-            return;
-        }
-        if (!enemy->isAlive()) {
-            throw std::runtime_error("Error: Enemy is already dead. Cannot shoot.")
-            return;
-        }
-        enemy->hit(10);
-        this->bullets--;
     }
 
- /**
- * @brief Checks if the cowboy has bullets left.
- * @return True if the cowboy has bullets, false otherwise.
- */
+    /**
+    * @brief Checks if the cowboy has bullets left.
+    * @return True if the cowboy has bullets, false otherwise.
+    */
     bool Cowboy::hasBullets() const {
         return (this->bullets>0);
     }
 
 /**
  * @brief Reloads the cowboy's gun with six new bullets.
+ * @throw std::runtimer_error If the cowboy is not alive and try to reload.
  */
     void Cowboy::reload() {
-        this->bullets=6;
+        if (!(this->isAlive())) {
+            throw std::runtime_error("Error: Cowboy is not alive. Cannot reload.");
+        }
+        this->bullets = 6;
     }
 
 /**
@@ -180,15 +192,9 @@ namespace ariel {
  * This function prints the name, hit points, and location of the cowboy.
  * @note If the cowboy is dead, the hit points and location will not be printed.
  */
-    void Cowboy::print() const {
-        if (!isAlive()) {
-            std::cout << "[C," << this->getName() << "]" << std::endl;
-        }
-        else {
-            std::cout << "C," << this->getName() << "," <<this->getHitPoints()<<","<<this->getLocation()<< std::endl;
-        }
+    std::string Cowboy::print() const {
+        return "C, " + Character::print();
     }
-
 /// Ninja class - defines the Ninja class, derived from the Character class.
 
 /**
@@ -198,7 +204,7 @@ namespace ariel {
  * @param speed The speed of the ninja.
  * @param hitPoints The hit points of the ninja.
  */
-    Ninja::Ninja(const std::string& name, const Point& location, int speed) : Character(name, location,100) {
+    Ninja::Ninja(const std::string& name, const Point& location, int speed , int hitPoints) : Character(name, location,hitPoints) , speed(speed) {
         if (speed < 0) {
             throw std::invalid_argument("Error: Speed cannot be negative.");
         }
@@ -228,20 +234,23 @@ namespace ariel {
         if (movement > distance) {
             movement = distance;
         }
-        Point newLocation = moveTowards(getLocation(), enemy->getLocation(), movement);
+        Point newLocation = Point::moveTowards(getLocation(), enemy->getLocation(), movement);
         setLocation(newLocation);
     }
 /**
  * @brief Performs a slash attack on the enemy character.
  * @param enemy A pointer to the enemy character.
  * @throws std::invalid_argument if the enemy pointer is invalid.
- * @throws std::logic_error if the ninja is already dead.
+ * @throws std::runtime_error if the ninja is already dead or the ninja try to slash himself.
  */
     void Ninja::slash(ariel::Character *enemy) {
         if (!enemy) {
             throw std::invalid_argument("Error: Invalid pointer to enemy character.");
         }
-        if (!isAlive()) {
+        if(this==enemy){
+            throw std::runtime_error("Error: Ninja can't slash himself.");
+        }
+        if (!isAlive() || !(enemy->isAlive())) {
             throw std::runtime_error("Error: Ninja is already dead.");
         }
         double distance = getLocation().distance(enemy->getLocation());
@@ -250,44 +259,8 @@ namespace ariel {
         }
     }
 
-/// YoungNinja class - defines the YoungNinja class, derived from the Character and Ninja class.
-
-/**
-* @brief Constructor for creating a YoungNinja object.
-* @param name The name of the young ninja character.
-* @param location The initial location of the young ninja character.
-*/
-
-    YoungNinja::YoungNinja(const std::string& name, const ariel::Point& location) : Ninja(name, location, 14, 100) {}
-
-    string YoungNinja::getNinjaType() const {
-        return "YoungNinja";
-    }
-
-/// TrainedNinja class - defines the TrainedNinja class, derived from the Character and Ninja class.
-
-/**
-* @brief Constructor for creating a TrainedNinja object.
-* @param name The name of the trained ninja character.
-* @param location The initial location of the trained ninja character.
-*/
-    TrainedNinja::TrainedNinja(const std::string& name, const ariel::Point& location) : Ninja(name, location, 12, 120) {}
-
-    string TrainedNinja::getNinjaType() const {
-        return "TrainedNinja";
-    }
-
-/// OldNinja class - defines the OldNinja class, derived from the Character and Ninja class.
-
-/**
-* @brief Constructor for creating a OldNinja object.
-* @param name The name of the old ninja character.
-* @param location The initial location of the old ninja character.
-*/
-    OldNinja::OldNinja(const std::string& name, const ariel::Point& location) : Ninja(name, location, 8, 150) {}
-
-    string OldNinja::getNinjaType() const {
-        return "OldNinja";
+    std::string Ninja::print() const {
+        return " N, " + Character::print();
     }
 
 }
