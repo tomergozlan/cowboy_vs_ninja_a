@@ -21,15 +21,15 @@ namespace ariel {
     public:
         Team(Character *leader);
 
-        Character* getLeader() const;
+        Character *getLeader() const;
 
-        const std::vector<Character*>& getFighters() const;
+        const std::vector<Character *> &getFighters() const;
 
         ~Team();
 
         void add(Character *fighter);
 
-        Character* findClosestCharacter(const Point& location, const std::vector<Character*>& fighters) const;
+        Character *findClosestCharacter(const Point &location, const std::vector<Character *> &fighters) const;
 
         void attack(Team *enemyTeam);
 
@@ -37,19 +37,14 @@ namespace ariel {
 
         void print() const;
 
-        // Disable copy constructor
-        Team(const Team&) = delete;
+        // Make tidy make me write this
+        Team(const Team &) = delete;
 
-        // Disable copy assignment operator
-        Team& operator=(const Team&) = delete;
+        Team &operator=(const Team &) = delete;
 
-        // Disable move constructor
-        Team(Team&&) = delete;
+        Team(Team &&) = delete;
 
-        // Disable move assignment operator
-        Team& operator=(Team&&) = delete;
-
-
+        Team &operator=(Team &&) = delete;
     };
 
 }

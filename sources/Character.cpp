@@ -14,6 +14,7 @@ namespace ariel {
  * @param name The name of the character.
  * @param location The location of the character.
  * @throw std::invalid_argument if the name is empty or if the location coordinates are negative.
+ * @throw std::out_of_range If the hit points is over or under the range of 0-150.
  */
     Character::Character(const std::string& name, const ariel::Point& location, const int &hitPoints):
             location(location) ,hitPoints(hitPoints) , name(name), teamMember(false){
@@ -65,7 +66,7 @@ namespace ariel {
         if (!other) {
             throw std::invalid_argument("Error: Invalid pointer to character.");
         }
-        return std::sqrt(std::pow((this->location.getX() - other->location.getX()),2) + std::pow((this->location.getY() - other->location.getY()),2));
+        return this->location.distance(other->getLocation());
     }
 
 /**
@@ -100,17 +101,34 @@ namespace ariel {
         return this->location;
     }
 
+/**
+ * @brief Getter to the hitPoints field.
+ * @return The value of the character hitPoints.
+ */
     int Character::getHitPoints() const {
         return this->hitPoints;
     }
 
+/**
+ * @brief Checks if the Character is a member of a team.
+ * @return true if the Character is a team member, false otherwise.
+ */
     bool Character::isTeamMember() const {
         return this->teamMember;
     }
 
+/**
+ * @brief Sets the team membership status of the Character.
+ * @param newTeamMember The new team membership status of the Character.
+ * Set to true if the Character is a team member, and false if the Character is not part of any team.
+ */
     void Character::setTeamMember(bool newTeamMember) {
         this->teamMember = newTeamMember;
     }
+/**
+ * @brief Generates a string representation of the Character.
+ * @return A string representation of the Character, including the name, hit points, and location.
+ */
     std::string Character::print() const {
         std::string characterInfo = "name: "+name + ", HitPoints: "+ std::to_string(hitPoints)  + ", location: ";
         characterInfo += location.print();
@@ -187,6 +205,10 @@ namespace ariel {
         this->bullets = 6;
     }
 
+/**
+ * @brief Retrieves the number of bullets the Cowboy has.
+ * @return The number of bullets the Cowboy has.
+ */
     int Cowboy::getBullets() const {
         return this->bullets;
     }
@@ -199,6 +221,7 @@ namespace ariel {
     std::string Cowboy::print() const {
         return "C, " + Character::print();
     }
+
 /// Ninja class - defines the Ninja class, derived from the Character class.
 
 /**
@@ -263,6 +286,10 @@ namespace ariel {
         }
     }
 
+/**
+ * @brief Generates a string representation of the Ninja.
+ * @return A string representation of the Ninja.
+ */
     std::string Ninja::print() const {
         return " N, " + Character::print();
     }

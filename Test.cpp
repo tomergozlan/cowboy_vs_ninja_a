@@ -1,6 +1,10 @@
-//
-// Created by Tomer Gozlan on 17/05/2023.
-//
+/**
+ * @file Test.cpp
+ * @brief Test the functionality of the different class of cowboy vs ninja project.
+ * @author Tome Gozlan
+ * @date 17/05/2023.
+ */
+
 #include "doctest.h"
 #include "sources/Character.hpp"
 #include "sources/Point.hpp"
@@ -9,7 +13,9 @@
 
 using namespace std;
 using namespace ariel;
+
 ///@test Point.hpp
+
 TEST_CASE("Test Case 1: Creating a Point object") {
     Point p(2.0, 3.0);
     CHECK(p.getX() == 2.0);
@@ -37,23 +43,21 @@ TEST_CASE("Test Case 4: Moving towards a destination point") {
     Point correctPoint(2.8, 4.6);
     double distance = 2.0;
     Point newPoint = source.moveTowards(source, dest, distance);
-    CHECK(newPoint.getX() == newPoint.getX());
-    CHECK(newPoint.getY() == newPoint.getY());
+    CHECK(newPoint.getX() == correctPoint.getX());
+    CHECK(newPoint.getY() == correctPoint.getY());
 }
 
 ///@test Team.hpp
+
 TEST_CASE("Test Case 5: Adding a fighter to the team") {
-    // Create a team with a leader
     Point leaderLocation(1.0, 2.0);
     Character *leader = new Cowboy("Tomer", leaderLocation);
     Team team_A(leader);
 
-    // Add a fighter to the team
     Point fighterLocation(3.0, 4.0);
     Character *fighter = new Ninja("Mike", fighterLocation, 100, 10);
     team_A.add(fighter);
 
-    // Check that the fighter was added to the team
     const std::vector<Character *> &fighters = team_A.getFighters();
     CHECK(fighters.size() == 2);
     CHECK(fighters[0]->getName() == "Tomer");
@@ -62,7 +66,6 @@ TEST_CASE("Test Case 5: Adding a fighter to the team") {
     CHECK(fighters[1]->getName() == "Mike");
     CHECK(fighters[1]->getLocation().getX() == 3.0);
     CHECK(fighters[1]->getLocation().getY() == 4.0);
-
 }
 
 TEST_CASE("Test Case 6: Adding more then the capacity of the team size") {
@@ -95,12 +98,10 @@ TEST_CASE("Test Case 6: Adding more then the capacity of the team size") {
     }
 
 TEST_CASE("Test Case 7: testing findClosestCharacter method") {
-    // Create a team with a leader
     Point leaderLocation(1.0, 2.0);
     Character *leader = new Cowboy("Leader", leaderLocation);
     Team team(leader);
 
-    // Create three very close fighters in different team
     Point fighter1Location(1.0, 2.0205);
     Character *fighter1 = new Ninja("Fighter1", fighter1Location, 100, 10);
     Team team_b(fighter1);
@@ -113,16 +114,13 @@ TEST_CASE("Test Case 7: testing findClosestCharacter method") {
     Character *fighter3 = new Ninja("Fighter3", fighter3Location, 100, 10);
     team_b.add(fighter3);
 
-    // Find the closest character to the leader
     Character *closestCharacter = team.findClosestCharacter(leaderLocation, team_b.getFighters());
 
-    // Check that the closest character is the correct one
     CHECK(closestCharacter == fighter2);
 
 }
 
 TEST_CASE("Test Case 8: testing attack method") {
-    // Create a team and enemy team
     Point leaderLocation(1.0, 2.0);
     Character *leader = new Cowboy("Leader", leaderLocation);
     Team team(leader);
@@ -131,7 +129,6 @@ TEST_CASE("Test Case 8: testing attack method") {
     Character *enemyLeader = new Cowboy("EnemyLeader", enemyLeaderLocation);
     Team enemyTeam(enemyLeader);
 
-    // Create fighters for both teams
     Point fighter1Location(2.0, 2.5);
     Character *fighter1 = new OldNinja("Fighter1", fighter1Location);
     team.add(fighter1);
@@ -168,8 +165,7 @@ TEST_CASE("Test Case 8: testing attack method") {
     }
     CHECK(enemyLeader->isAlive() == true);
     CHECK(enemyFighter1->isAlive() == false);
-    CHECK(enemyFighter1->getHitPoints() ==
-          0);//YoungNinja hitPoints : 80 , 4 bullets from cowboys 10 each and 2 slash 40
+    CHECK(enemyFighter1->getHitPoints() ==0);//YoungNinja hitPoints : 80 , 4 bullets from cowboys 10 each and 2 slash 40
     CHECK(enemyTeam.stillAlive() == 2);
     CHECK(enemyFighter2->isAlive() == true);
     CHECK(fighter1->isAlive() == true);
@@ -179,7 +175,6 @@ TEST_CASE("Test Case 8: testing attack method") {
 /// @test Character.hpp
 
 TEST_CASE("Test Case 9: testing Character class") {
-    // Create a derived class instance to test the common functionalities
     Point Location(2.0, 3.0);
     Character *cowboy = new Cowboy("Tomer", Location);
 
@@ -280,7 +275,6 @@ TEST_CASE("Test Case 12: Ninja Move and Slash") {
     OldNinja *ninja1 = new OldNinja("Tomer", ninjaLocation);
     YoungNinja *ninja2 = new YoungNinja("Gozlan", ninjaLocation);
 
-    // Move the ninja to a new location
     Point newLocation(3.0, 4.0);
     ninja2->setLocation(newLocation);
     ninja1->move(ninja2);

@@ -15,7 +15,7 @@ namespace ariel {
  * @throws std::invalid_argument if the coordinates are NaN, infinite, or out of bounds.
  */
     Point::Point(double coordinate_x, double coordinate_y) {
-        if (coordinate_x > std::numeric_limits<double>::max() || coordinate_y < std::numeric_limits<double>::lowest() ) {
+        if (coordinate_x > std::numeric_limits<double>::max() || coordinate_y < std::numeric_limits<double>::lowest()) {
             throw std::out_of_range("Invalid coordinates: Out of bounds.");
         }
         this->coordinate_x = coordinate_x;
@@ -32,7 +32,6 @@ namespace ariel {
 
 /**
 * @brief Returns the y coordinate of this position.
-*
 * @return The y coordinate of this position.
 */
     double Point::getY() const {
@@ -48,7 +47,7 @@ namespace ariel {
         if (std::abs(newX) > DBL_MAX) {
             throw std::out_of_range("Invalid coordinates: Out of bounds.");
         }
-        this->coordinate_x=newX;
+        this->coordinate_x = newX;
     }
 
 /**
@@ -60,9 +59,8 @@ namespace ariel {
         if (std::abs(newY) > DBL_MAX) {
             throw std::out_of_range("Invalid coordinates: Out of bounds.");
         }
-        this->coordinate_y=newY;
+        this->coordinate_y = newY;
     }
-
 
 /**
 * @brief Calculates the Euclidean distance between this point and another point.
@@ -72,14 +70,14 @@ namespace ariel {
     double Point::distance(const ariel::Point &other) const {
         double dx = this->coordinate_x - other.coordinate_x;
         double dy = this->coordinate_y - other.coordinate_y;
-        return std::sqrt(dx*dx+dy*dy);
+        return std::sqrt(dx * dx + dy * dy);
     }
 
 /**
-* @brief Prints this position to standard output in the format (x, y).
+* @brief Prints this position to standard output in the format [x, y].
 */
     std::string Point::print() const {
-       return "[" + std::to_string(this->coordinate_x) + "," + std::to_string(this->coordinate_y) + "]";
+        return "[" + std::to_string(this->coordinate_x) + "," + std::to_string(this->coordinate_y) + "]";
     }
 
 /**
@@ -89,7 +87,7 @@ namespace ariel {
 * @param distance The maximum distance from the source position to the returned position.
 * @return The closest point to the destination point that is at most the given distance from the source point.
 */
-    Point Point::moveTowards(const ariel::Point &source,const ariel::Point &dest, double distance) {
+    Point Point::moveTowards(const ariel::Point &source, const ariel::Point &dest, double distance) {
         if (distance < 0) {
             throw std::invalid_argument("maxDist cannot be negative");
         }
@@ -106,7 +104,7 @@ namespace ariel {
         double newX = source.coordinate_x + distance * dx / dist;
         double newY = source.coordinate_y + distance * dy / dist;
 
-        return Point(newX,newY);
+        return Point(newX, newY);
     }
 
 }

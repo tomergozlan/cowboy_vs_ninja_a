@@ -36,7 +36,7 @@ namespace ariel {
 
         std::string print() const;
 
-        static Point moveTowards(const Point& source,const Point& dest, double distance);
+        static Point moveTowards(const Point &source, const Point &dest, double distance);
 
     };
 }

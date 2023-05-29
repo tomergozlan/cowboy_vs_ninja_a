@@ -17,7 +17,7 @@ namespace ariel {
  * @throws std::invalid_argument If the leader pointer is invalid or the team already has ten fighters.
  * @throws std::runtimer_error If the leader is already member in other team.
  */
-    Team::Team(Character* leader):leader(leader) {
+    Team::Team(Character *leader) : leader(leader) {
         if (!leader) {
             throw std::invalid_argument("Error: Invalid pointer to team leader.");
         }
@@ -180,9 +180,9 @@ namespace ariel {
 * Prints the details, such as the name, hit points, and location, of all the fighters in the team.
 */
     void Team::print() const {
-        std::cout<<"---------------------"<<std::endl;
-        std::cout<<"Team "<<this->leader->getName()<<std::endl;
-        std::cout<<"---------------------"<<std::endl;
+        std::cout << "---------------------" << std::endl;
+        std::cout << "Team " << this->leader->getName() << std::endl;
+        std::cout << "---------------------" << std::endl;
         std::cout << "Team Status: " << (stillAlive() ? "Alive" : "Defeated") << std::endl;
         std::cout << "Number of Team members: " << (stillAlive() ? std::to_string(stillAlive()) : "0") << std::endl;
         std::cout << "Team Members:" << std::endl;
@@ -190,7 +190,7 @@ namespace ariel {
         for (Character *member: this->fighters) {
             if (member->isAlive()) {
                 if (Cowboy *cowboy = dynamic_cast<Cowboy *>(member)) {
-                    std::cout  << cowboy->print() << std::endl;
+                    std::cout << cowboy->print() << std::endl;
                 }
             }
         }
