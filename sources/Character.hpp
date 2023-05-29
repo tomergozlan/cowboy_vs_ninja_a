@@ -47,6 +47,18 @@ namespace ariel {
         void setLocation(Point newLocation);
 
         virtual std::string print() const = 0;
+
+        // Define copy constructor
+        Character(const Character& other) = default;
+
+        // Define copy assignment operator
+        Character& operator=(const Character& other) = default;
+
+        // Define move constructor
+        Character(Character&& other) = default;
+
+        // Define move assignment operator
+        Character& operator=(Character&& other) = default;
     };
 
     class Cowboy : public Character {
@@ -68,7 +80,7 @@ namespace ariel {
     };
 
     class Ninja : public Character {
-    protected:
+    private:
         int speed;
 
     public:
@@ -83,18 +95,28 @@ namespace ariel {
     };
 
     class YoungNinja : public Ninja {
+    private:
+        static const int YOUNG_NINJA_SPEED=14;
+        static const int YOUNG_NINJA_HIT_POINTS=100;
+
     public:
-        YoungNinja(const std::string& name, const Point& location) : Ninja(std::move(name) , location , 14 ,100){}
+        YoungNinja(const std::string& name, const Point& location) : Ninja(name , location , YOUNG_NINJA_SPEED ,YOUNG_NINJA_HIT_POINTS){}
     };
 
     class TrainedNinja : public Ninja {
+    private:
+        static const int TRAINED_NINJA_SPEED=12;
+        static const int TRAINED_NINJA_HIT_POINTS=120;
     public:
-        TrainedNinja(const std::string& name, const Point& location): Ninja(std::move(name),location,12,120){}
+        TrainedNinja(const std::string& name, const Point& location): Ninja(name,location,TRAINED_NINJA_SPEED,TRAINED_NINJA_HIT_POINTS){}
     };
 
     class OldNinja : public Ninja {
+    private:
+        static const int OLD_NINJA_SPEED=8;
+        static const int OLD_NINJA_HIT_POINTS=150;
     public:
-        OldNinja(const std::string& name, const Point& location): Ninja(std::move(name),location,8,150){}
+        OldNinja(const std::string& name, const Point& location): Ninja(name,location,OLD_NINJA_SPEED,OLD_NINJA_HIT_POINTS){}
     };
 
 }

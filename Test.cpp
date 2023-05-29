@@ -62,6 +62,7 @@ TEST_CASE("Test Case 5: Adding a fighter to the team") {
     CHECK(fighters[1]->getName() == "Mike");
     CHECK(fighters[1]->getLocation().getX() == 3.0);
     CHECK(fighters[1]->getLocation().getY() == 4.0);
+
 }
 
 TEST_CASE("Test Case 6: Adding more then the capacity of the team size") {
@@ -91,7 +92,7 @@ TEST_CASE("Test Case 6: Adding more then the capacity of the team size") {
     Point location(100.123, 321.100);
     Character *fighter_number11 = new Ninja("throw", location, 100, 10);
     CHECK_THROWS(team_of_ten.add(fighter_number11));
-}
+    }
 
 TEST_CASE("Test Case 7: testing findClosestCharacter method") {
     // Create a team with a leader
@@ -117,6 +118,7 @@ TEST_CASE("Test Case 7: testing findClosestCharacter method") {
 
     // Check that the closest character is the correct one
     CHECK(closestCharacter == fighter2);
+
 }
 
 TEST_CASE("Test Case 8: testing attack method") {
@@ -213,6 +215,7 @@ TEST_CASE("Test Case 9: testing Character class") {
     // Test setTeamMember() function
     cowboy->setTeamMember(true);
     CHECK(cowboy->isTeamMember() == true);
+
 }
 
 /// @test Cowboy.hpp
@@ -251,6 +254,7 @@ TEST_CASE("Test Case 10: testing Cowboy contractor and method") {
     otherCowboy->hit(110);
     CHECK_THROWS(cowboy->shoot(otherCowboy));
     CHECK_THROWS(otherCowboy->shoot(cowboy));
+
 }
 
 TEST_CASE("Test Case 11: testing Cowboy Reload and Shoot") {
@@ -273,10 +277,8 @@ TEST_CASE("Test Case 11: testing Cowboy Reload and Shoot") {
 
 TEST_CASE("Test Case 12: Ninja Move and Slash") {
     Point ninjaLocation(2.0, 3.0);
-    Character *ninja_1 = new OldNinja("Tomer", ninjaLocation);
-    Character *ninja_2 = new YoungNinja("Gozlan", ninjaLocation);
-    OldNinja *ninja1 = dynamic_cast<OldNinja *>(ninja_1);
-    YoungNinja *ninja2 = dynamic_cast<YoungNinja *>(ninja_2);
+    OldNinja *ninja1 = new OldNinja("Tomer", ninjaLocation);
+    YoungNinja *ninja2 = new YoungNinja("Gozlan", ninjaLocation);
 
     // Move the ninja to a new location
     Point newLocation(3.0, 4.0);
@@ -286,6 +288,7 @@ TEST_CASE("Test Case 12: Ninja Move and Slash") {
     CHECK(ninja1->getLocation().getY() == newLocation.getY());
     ninja1->slash(ninja2);
     CHECK(ninja2->getHitPoints() == 60); // 100-40
+
 }
 
 

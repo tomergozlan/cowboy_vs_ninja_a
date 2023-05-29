@@ -17,7 +17,7 @@ namespace ariel {
  * @throws std::invalid_argument If the leader pointer is invalid or the team already has ten fighters.
  * @throws std::runtimer_error If the leader is already member in other team.
  */
-    Team::Team(Character *leader) {
+    Team::Team(Character* leader):leader(leader) {
         if (!leader) {
             throw std::invalid_argument("Error: Invalid pointer to team leader.");
         }

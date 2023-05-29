@@ -37,6 +37,19 @@ namespace ariel {
 
         void print() const;
 
+        // Disable copy constructor
+        Team(const Team&) = delete;
+
+        // Disable copy assignment operator
+        Team& operator=(const Team&) = delete;
+
+        // Disable move constructor
+        Team(Team&&) = delete;
+
+        // Disable move assignment operator
+        Team& operator=(Team&&) = delete;
+
+
     };
 
 }
