@@ -62,6 +62,8 @@ namespace ariel {
 
         void reload();
 
+        int getBullets() const;
+
         std::string print() const override;
     };
 

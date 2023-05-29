@@ -15,7 +15,7 @@ namespace ariel {
  * @throws std::invalid_argument if the coordinates are NaN, infinite, or out of bounds.
  */
     Point::Point(double coordinate_x, double coordinate_y) {
-        if (std::abs(coordinate_x) > DBL_MAX || std::abs(coordinate_y) > DBL_MAX) {
+        if (coordinate_x > std::numeric_limits<double>::max() || coordinate_y < std::numeric_limits<double>::lowest() ) {
             throw std::out_of_range("Invalid coordinates: Out of bounds.");
         }
         this->coordinate_x = coordinate_x;

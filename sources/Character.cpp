@@ -112,7 +112,7 @@ namespace ariel {
         this->teamMember = newTeamMember;
     }
     std::string Character::print() const {
-        std::string characterInfo = "name: "+name + ", health: "+ std::to_string(hitPoints)  + ", location: ";
+        std::string characterInfo = "name: "+name + ", HitPoints: "+ std::to_string(hitPoints)  + ", location: ";
         characterInfo += location.print();
         return characterInfo;
     }
@@ -185,6 +185,10 @@ namespace ariel {
             throw std::runtime_error("Error: Cowboy is not alive. Cannot reload.");
         }
         this->bullets = 6;
+    }
+
+    int Cowboy::getBullets() const {
+        return this->bullets;
     }
 
 /**

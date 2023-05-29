@@ -23,8 +23,6 @@ namespace ariel {
 
         Character* getLeader() const;
 
-        void setLeader();
-
         const std::vector<Character*>& getFighters() const;
 
         ~Team();

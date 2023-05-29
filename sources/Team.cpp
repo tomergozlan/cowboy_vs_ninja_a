@@ -40,31 +40,6 @@ namespace ariel {
         return this->leader;
     }
 
-/**
- * @brief Set the leader of the team.
- * @param newLeader Pointer to the new leader character.
- * @throws std::invalid_argument If the newLeader pointer is invalid.
- */
-    void Team::setLeader() {
-        if (!leader->isAlive()) {
-            double min_distance = std::numeric_limits<double>::max();
-            Character *newLeader = nullptr;
-
-            for (Character *fighter: this->fighters) {
-                if (fighter != leader && fighter->isAlive()) {
-                    double distance = leader->getLocation().distance(fighter->getLocation());
-                    if (distance < min_distance) {
-                        min_distance = distance;
-                        newLeader = fighter;
-                    }
-                }
-            }
-            //if (newLeader) {
-            this->leader = newLeader;
-            //}
-        }
-    }
-
     /**
  * @brief Get the fighters in the team.
  * @return A reference to the vector of fighters in the team.
